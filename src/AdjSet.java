@@ -1,16 +1,17 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.TreeSet;
 
-public class AdjList {
+public class AdjSet {
 
     private int V;
     private int E;
+    private TreeSet<Integer>[] adj;
 
-    private LinkedList<Integer>[] adj;
-
-    public AdjList(String filename) {
+    public AdjSet(String filename) {
         File file = new File(filename);
 
         try ( Scanner sc = new Scanner(file) ) {
@@ -22,9 +23,9 @@ public class AdjList {
             if (E < 0)
                 throw new IllegalArgumentException("E must be non-negative");
 
-            adj = new LinkedList[V];
+            adj = new TreeSet[V];
             for (int i = 0; i < V; i++)
-                adj[i] = new LinkedList<>();
+                adj[i] = new TreeSet<>();
 
             for (int i = 0; i < E; i++) {
                 int a = sc.nextInt();
@@ -65,13 +66,14 @@ public class AdjList {
         return adj[v].contains(w);
     }
 
-    public LinkedList<Integer> adj(int v) {
+    public Iterable<Integer> adj(int v) {
         validateVertex(v);
         return adj[v];
     }
 
     public int degree(int v) {
-        return adj(v).size();
+        validateVertex(v);
+        return adj[v].size();
     }
 
 
@@ -89,8 +91,13 @@ public class AdjList {
     }
 
     public static void main(String[] args) {
-        AdjList adj = new AdjList("g.txt");
-        System.out.println(adj);
+        AdjSet adjSet = new AdjSet("g.txt");
+        System.out.println(adjSet);
+
+        Iterator<Integer> it = adjSet.adj(1).iterator();
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
     }
 
 }

@@ -4,30 +4,40 @@ public class GraphDFS {
 
     private Graph g;
     private boolean[] visited;
-    private ArrayList<Integer> orderedList;
+    private ArrayList<Integer> preorderedList;
+    private ArrayList<Integer> postorderedList;
     public GraphDFS(Graph g) {
         this.g = g;
         visited = new boolean[g.V()];
-        orderedList = new ArrayList<>();
-        dfs(0);
+        preorderedList = new ArrayList<>();
+        postorderedList = new ArrayList<>();
+        for (int v = 0; v < g.V(); v++){
+            if (!visited[v])
+                dfs(v);
+        }
     }
 
     private void dfs(int v) {
         visited[v] = true;
-        orderedList.add(v);
+        preorderedList.add(v);
         for (int w : g.adj(v)){
             if (!visited[w])
                 dfs(w);
         }
+        postorderedList.add(v);
     }
-    public Iterable<Integer> order(){
-        return orderedList;
+    public Iterable<Integer> preorder(){
+        return preorderedList;
     }
 
+    public Iterable<Integer> postorder() {
+        return postorderedList;
+    }
     public static void main(String[] args) {
         Graph g = new Graph("g.txt");
         GraphDFS graphDFS = new GraphDFS(g);
-        System.out.println(graphDFS.order());
+        System.out.println(graphDFS.preorder());
+        System.out.println(graphDFS.postorder());
     }
 
 }

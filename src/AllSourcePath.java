@@ -13,7 +13,7 @@ public class AllSourcePath {
         visited = new boolean[g.V()];
         paths = new SingleSourcePath[g.V()];
         for (int v = 0; v < g.V(); v++)
-            paths[v] = new SingleSourcePath(g, v);
+            paths[v] = new SingleSourcePath(g,v);
     }
 
     public boolean isConnected(int s, int t) {
